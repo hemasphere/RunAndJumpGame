@@ -1,7 +1,7 @@
 var character, ground;
 var score = 0;
 var obstacles = [];
-var obstaclespeed = 2.3;
+var obstaclespeed = 2;
 var frequency = 100;
 var dead = false;
 
@@ -14,33 +14,20 @@ function setup() {
 
 function draw() {
 	background(255, 204, 0);
-
-	// Collision with ground
 	if(character.y + character.size/2 > ground.y - ground.height/2) {
 		character.y = ground.y - ground.height/2 - character.size/2;
 	}
-
-	// Show character
 	if(!gameOver()) character.show();
-
-	// Show ground
 	if(!gameOver()) ground.show();
-
-	// Obstacle loop
 	for(var i = obstacles.length-1; i >= 0; i--) {
 		if(!gameOver()) obstacles[i].show();
-		// Delete off screen obstacles
 		if(obstacles[i].x < -100) obstacles.splice(i, 1);
-		// Character collision with obstacle (left side)
 		if(character.x + character.size/2 > obstacles[i].x - obstacles[i].width/2) {
-			//score
 			if(!obstacles[i].cleared) {
 				score++;
 				obstacles[i].cleared = true;
 			}
-			// Character collision with obstacle (right side)
 			if(character.x - character.size/2 < obstacles[i].x + obstacles[i].width/2) {
-				// Character collision with obstacle (top)
 				if(character.y + character.size/2 > obstacles[i].y - obstacles[i].height/2) {
 					dead = true;
 				}
@@ -48,7 +35,7 @@ function draw() {
 		}
 	}
 
-	// Show score
+	// score
 	textSize(50);
 	textAlign(CENTER);
 	fill(255);
@@ -101,7 +88,7 @@ function Character(x, y) {
 
 Character.prototype.show = function() {
 	fill("#fae");
-	noStroke();
+	stroke('red');
 	rectMode(CENTER);
 	ellipse(this.x, this.y, this.size, this.size);
 
@@ -122,7 +109,6 @@ function Ground(x, y) {
 
 Ground.prototype.show = function() {
 	fill(0);
-	noStroke();
 	rectMode(CENTER);
   rect(this.x, this.y, this.size, this.size);
 }
@@ -134,15 +120,14 @@ this.cleared = false;
 this.speed = speed;
 }
 
-Obstacle.prototype.width = 25;
-Obstacle.prototype.height = 40;
+Obstacle.prototype.width = 15;
+Obstacle.prototype.height = 25;
 Obstacle.prototype.color = 'blue';
 
 Obstacle.prototype.show = function() {
-fill(this.color);
+fill('blue');
+noStroke();
 rectMode(CENTER);
-rect(this.x, this.y, this.width, this.height);
-
-// Move to left
+rect(this.x, this.y, 15, 25);
 this.x -= this.speed;
 }
