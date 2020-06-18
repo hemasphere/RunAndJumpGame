@@ -6,16 +6,9 @@ var frequency = 100;
 var dead = false;
 
 function setup() {
-	// Create canvas
 	createCanvas(600, 600);
-
-	// Create char
 	character = new Character(60, height/2);
-
-	// Create ground
 	ground = new Ground(width/2, height-20);
-
-	// Create first obstacle
 	obstacles.push(new Obstacle(0.90 * width, ground.y - ground.height/2 - 20, obstaclespeed));
 }
 
@@ -35,21 +28,16 @@ function draw() {
 
 	// Obstacle loop
 	for(var i = obstacles.length-1; i >= 0; i--) {
-		// Show obstacle
 		if(!gameOver()) obstacles[i].show();
-
 		// Delete off screen obstacles
 		if(obstacles[i].x < -100) obstacles.splice(i, 1);
-
 		// Character collision with obstacle (left side)
 		if(character.x + character.size/2 > obstacles[i].x - obstacles[i].width/2) {
-
-			// Add score
+			//score
 			if(!obstacles[i].cleared) {
 				score++;
 				obstacles[i].cleared = true;
 			}
-
 			// Character collision with obstacle (right side)
 			if(character.x - character.size/2 < obstacles[i].x + obstacles[i].width/2) {
 				// Character collision with obstacle (top)
